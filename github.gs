@@ -9,8 +9,16 @@ const email               = properties.getProperty('email');
 const branchName          = properties.getProperty('branchName');
 
 const siteUrl             = properties.getProperty('siteUrl');
-const folderIdSpecial     = properties.getProperty('folderIdLiterature');
-const folderIdGeneral     = properties.getProperty('folderIdEngineering');
+/**
+ * ☆folderIdの取得
+ */
+// =============================
+// updatePageの定義
+// 指定したフォルダごとにページ（HTML）を生成・更新する関数
+// =============================
+const folderIdGeneral     = properties.getProperty('folderIdGeneral');
+const folderIdEngineering     = properties.getProperty('folderIdEngineering');
+const folderIdLiterature  = properties.getProperty('folderIdLiterature');
 const homePath = '';
 
 const githubOption = { "name": name, "email": email };
@@ -104,13 +112,13 @@ function updatePagesGeneral(){
 /**
  * 工学部専門科目のpageを更新
  */
-function updatePagesSpecial(){
+function updatePagesEngineering(){
   const rootFolderId = folderIdEngineering;
   const rootFolder = DriveApp.getFolderById(rootFolderId);
   makeDescendantPages(rootFolder, "index.html");
 
   if(commitMessage != ""){
-    commitMessage = Utilities.formatDate(new Date(), "JST", "yyyy-MM-dd") + '専門' + commitMessage2 + commitMessage;
+    commitMessage = Utilities.formatDate(new Date(), "JST", "yyyy-MM-dd") + '工学部専門' + commitMessage2 + commitMessage;
     const data = {
       'tree': pTree['tree']
     };
@@ -125,13 +133,13 @@ function updatePagesSpecial(){
 /**
  * 文学部専門科目のpageを更新
  */
-function updatePagesSpecial(){
+function updatePagesLiterature(){
   const rootFolderId = folderIdLiterature;
   const rootFolder = DriveApp.getFolderById(rootFolderId);
   makeDescendantPages(rootFolder, "index.html");
 
   if(commitMessage != ""){
-    commitMessage = Utilities.formatDate(new Date(), "JST", "yyyy-MM-dd") + '専門' + commitMessage2 + commitMessage;
+    commitMessage = Utilities.formatDate(new Date(), "JST", "yyyy-MM-dd") + '文学部専門' + commitMessage2 + commitMessage;
     const data = {
       'tree': pTree['tree']
     };
@@ -165,6 +173,9 @@ function makeDescendantPages(folder, parentPage){
  * @param {Object} folder [DriveApp folder class]
  * @param {string} parentPage [folderの1つ上のフォルダに該当するページのurl ex:index.html]
  * @return {string} [folderに該当するページのurl ex:folder.html]
+ */
+ /**
+ * updatePageの定義
  */
 function updatePage(folder, parentPage){
   const folderName = folder.getName();
