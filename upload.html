@@ -3,17 +3,22 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>KU1025 - upload</title>
-  <?!= include('css'); ?>
+  <title>HU2025 - upload</title>
+
+  <link rel="stylesheet" href="style.css">
+
   <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-  <meta name="keywords" content="京大,物工,過去問,1025kuexam,センニジューゴ">
+  <meta name="keywords" content="北大,工学部,文学部,過去問,2025huexam,huexam2025,ニセンニジューゴ">
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:site" content="@1025kuexam" />
-  <meta name="twitter:creator" content="@1025kuexam" />
-  <meta property="og:url" content="https://ku1025.netlify.app/upload.html" />
-  <meta property="og:title" content="過去問アップロード-KU1025" />
-  <meta property="og:description" content="京大工学部物理工学科生のための過去問サイト。過去問の提供はこちらからお願いします！" />
-  <meta property="og:image" content="https://drive.google.com/uc?export=view&id=1d7PXXzJU4iWdBhSqGJ_piNlcVLmzlYbg&usp=sharing" />
+  <meta name="twitter:site" content="@ExamHu2025" />
+  <meta name="twitter:creator" content="@ExamHu2025" />
+  <meta property="og:url" content="https://hu2025.netlify.app//" />
+  <meta property="og:title" content="北大工学部過去問サイト HU2025" />
+  <meta property="og:description" content="北大工学部生のための過去問サイト。過去問募集中！" />
+  <meta property="og:image" content="ogp.jpg"/>
+
+  <link rel="icon" href="/favicon.ico">
+  <!-- Google広告は設置しないため、広告用スクリプトは不要 -->
 </head>
 
 <body>
@@ -29,7 +34,7 @@
       </div>
     </div>
     <header>
-      <a id="title" href="./index.html">KU1025</a>
+      <a id="title" href="./index.html">HU2025</a>
     </header>
     <div>
       <div style="height:20px;background-color:#ffffff">
@@ -38,7 +43,7 @@
       </div>
     </div>
     <p class="description">
-      このサイトは，北海道大学工学部の過去問サイトです．過去問の投稿は<a href="upload.html">こちら</a>から，ご意見などは 1025.kuexam[at]gmail.com に送ってください．([at]は@に変更してください)
+      このサイトは，北海道大学工学部の過去問サイトです．過去問の投稿は<a href="upload.html">こちら</a>から，ご意見などは hu2025.exam[at]gmail.com に送ってください．([at]は@に変更してください)
     </p>
     <div class="container">
       <div class="side">
@@ -46,11 +51,11 @@
       </div>
       <div class="contents">
 		<p>
-		<a href="https://docs.google.com/forms/d/e/1FAIpQLSfClTDlif8TubS9rBbtPblSnKfI0zZBUv0ufVU-FT6O0d2eSQ/viewform"target=”_blank”>
+		<a href="https://forms.gle/xfWRGsTSoz3oZuq28" target="_blank">
 		googleフォーム
 		</a>
 		(googleアカウントが必要)<br>または<br>
-		<a href="https://www.dropbox.com/request/4dkGAWDsjVkUM3DSJb1K"target=”_blank”>
+		<a href="https://www.dropbox.com/request/quy2hhYMSTcLxol7FWcL" target="_blank">
 		Dropbox
 		</a>
 		からアップロードしてください
@@ -61,10 +66,10 @@
 			<li>
 			できるだけ<b>1つのpdfにまとめて</b>いただけるとありがたいです。
 			</li>
-			(スキャナが家にない場合などはスマホで撮ったものでも構いません)
+			(スキャナが家にない場合などはスマホで撮ったものでも構いません <br> <a href="https://apps.apple.com/jp/app/adobe-scan-ocr-付-スキャナーアプリ/id1199564834" target="_blank">Adobe Scan</a>というアプリがオススメです。)
 			
 			<li>
-			ファイル名は以下のルールに従って<b>"正式科目名(教官の苗字)西暦年度.pdf"</b>にしてください。
+			ファイル名は以下のルールに従って<b>"部局名・正式科目名(教官苗字)年度.pdf"</b>にしてください。
 			</li>
 			<ul>
 				<li>
@@ -81,9 +86,9 @@
 				</li>
 			</ul>
 
-			例:中部主敬先生と巽和也先生の熱力学１の2018年度の問題が2つのpdfに分かれている場合<br>
-			1ページ目を"熱力学1(中部・巽)2018(1).pdf"<br>
-			2ページ目を"熱力学1(中部・巽)2018(2).pdf"<br>
+			例:情報エレクトロニクス学科の小糸健太先生と七海和也先生の熱力学１の2018年度の問題が2つのpdfに分かれている場合<br>
+			1ページ目を"情エレ・熱力学1(小糸・七海)2018(1).pdf"<br>
+			2ページ目を"情エレ・熱力学1(小糸・七海)2018(2).pdf"<br>
             としてアップロードしてください。<br>
 			スマホなどでファイル名の変え方がわからない場合はそのままでも構いません。<br>
 		</ol>
@@ -92,7 +97,7 @@
       </div>
     </div>
     <aside>
-      <a href="https://github.com/KU1025/KU1025onNetlify" target="_blank"><font color=#228b22>Google Apps Script of KU1025</font></a>
+      <a href="https://github.com/ArukuHodo/HU2025onNetlify" target="_blank"><font color=#228b22>Google Apps Script of HU2025</font></a>
     </aside>
     <div>
       <div style="height:3px;background-color:#228b22">

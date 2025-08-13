@@ -9,8 +9,8 @@ const email               = properties.getProperty('email');
 const branchName          = properties.getProperty('branchName');
 
 const siteUrl             = properties.getProperty('siteUrl');
-const folderIdSpecial     = properties.getProperty('folderIdSpecial');
-const folderIdGeneral     = properties.getProperty('folderIdGeneral');
+const folderIdSpecial     = properties.getProperty('folderIdLiterature');
+const folderIdGeneral     = properties.getProperty('folderIdEngineering');
 const homePath = '';
 
 const githubOption = { "name": name, "email": email };
@@ -28,9 +28,9 @@ let commitMessage = "";
  */
 let commitMessage2 = "";
 
-/**
- * index.htmlを更新
- */
+/*
+ * index.htmlを更新　(停止中)
+ *
 function updateIndexPage(){
   commitMessage = Utilities.formatDate(new Date(), "JST", "yyyy-MM-dd") + 'トップ' + commitMessage2;
   let htmlTemplate = HtmlService.createTemplateFromFile('index');
@@ -52,10 +52,11 @@ function updateIndexPage(){
   Logger.log(result);
   return;
 }
+*/
 
-/**
- * upload.htmlを更新
- */
+/*
+ * upload.htmlを更新　(停止中)
+ *
 function updateUploadPage(){
   commitMessage = Utilities.formatDate(new Date(), "JST", "yyyy-MM-dd") + 'アップロード' + commitMessage2;
   let htmlTemplate = HtmlService.createTemplateFromFile('upload');
@@ -77,12 +78,34 @@ function updateUploadPage(){
   Logger.log(result);
   return;
 }
+*/
 
 /**
- * 専門科目のpageを更新
+ * 全学教育科目のpageを更新
+ */
+function updatePagesGeneral(){
+  const rootFolderId = folderIdGeneral;
+  const rootFolder = DriveApp.getFolderById(rootFolderId);
+  makeDescendantPages(rootFolder, "index.html");
+  
+  if(commitMessage != ""){
+    commitMessage = Utilities.formatDate(new Date(), "JST", "yyyy-MM-dd") + '全学' + commitMessage2 + commitMessage;
+    const data = {
+      'tree': pTree['tree']
+    };
+    const tree = github.createTree(data);
+    const commit = github.createCommit(commitMessage, tree['sha'], branch['commit']['sha']);
+    const result = github.updateReference(branchName, commit['sha']);
+    Logger.log(result);
+  }
+  return;
+}
+
+/**
+ * 工学部専門科目のpageを更新
  */
 function updatePagesSpecial(){
-  const rootFolderId = folderIdSpecial;
+  const rootFolderId = folderIdEngineering;
   const rootFolder = DriveApp.getFolderById(rootFolderId);
   makeDescendantPages(rootFolder, "index.html");
 
@@ -100,15 +123,15 @@ function updatePagesSpecial(){
 }
 
 /**
- * 全学共通科目のpageを更新
+ * 文学部専門科目のpageを更新
  */
-function updatePagesGeneral(){
-  const rootFolderId = folderIdGeneral;
+function updatePagesSpecial(){
+  const rootFolderId = folderIdLiterature;
   const rootFolder = DriveApp.getFolderById(rootFolderId);
   makeDescendantPages(rootFolder, "index.html");
-  
+
   if(commitMessage != ""){
-    commitMessage = Utilities.formatDate(new Date(), "JST", "yyyy-MM-dd") + '全学' + commitMessage2 + commitMessage;
+    commitMessage = Utilities.formatDate(new Date(), "JST", "yyyy-MM-dd") + '専門' + commitMessage2 + commitMessage;
     const data = {
       'tree': pTree['tree']
     };
@@ -189,9 +212,9 @@ function makeContents(rootFolder, myData){
   const pageUrl = siteUrl + rootFolderName + '.html';  //現在表示しているページのurl
   
   //tweetbottunUrl1,2の間にファイル名を入れてtweetボタンのテキストに
-  const tweetbottunUrl1 = "https://twitter.com/intent/tweet?hashtags=KU1025,"
+  const tweetbottunUrl1 = "https://twitter.com/intent/tweet?hashtags=HU2025,"
                       + rootFolderName
-                      + "&ref_src=twsrc%5Etfw&text=KU1025で";
+                      + "&ref_src=twsrc%5Etfw&text=HU2025で";
   const tweetbottunUrl2 = "を解いたよ&url=" + encodeURI(encodeURI(pageUrl)) + "&tw_p=tweetbutton&ref_src=twsrc%5Etfw";
   //encodeURI(encodeURI())ではなくencodeURIComponent()がただしいのでは？
   
