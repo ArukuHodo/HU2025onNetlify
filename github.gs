@@ -226,8 +226,8 @@ function makeContents(rootFolder, myData){
   const tweetbottunUrl1 = "https://twitter.com/intent/tweet?hashtags=HU2025,"
                       + rootFolderName
                       + "&ref_src=twsrc%5Etfw&text=HU2025で";
-  const tweetbottunUrl2 = "を解いたよ&url=" + encodeURI(encodeURI(pageUrl)) + "&tw_p=tweetbutton&ref_src=twsrc%5Etfw";
-  //encodeURI(encodeURI())ではなくencodeURIComponent()がただしいのでは？
+  const tweetbottunUrl2 = "を解いたよ&url=" + encodeURIComponent(pageUrl) + "&tw_p=tweetbutton&ref_src=twsrc%5Etfw";
+  //encodeURI(encodeURI())ではなくencodeURIComponent()がただしいのでは？　←修正済
   
   for(let i in myData["folder"]){
     
