@@ -1,0 +1,14 @@
+# Private / local configs
+# Do NOT commit secrets, tokens, or raw Drive folder IDs
+*.local
+.env
+.env.*
+secret*.md
+# GAS export artifacts
+appsscript.json
+# Node/npm (if later added)
+node_modules/
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/

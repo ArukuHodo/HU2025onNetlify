@@ -1,5 +1,4 @@
-<style>
-    aside {
+aside {
   text-align: right;
 }
 
@@ -12,6 +11,7 @@ a#title {
   color: #228b22;
   letter-spacing: 0.1rem;
   text-decoration: none;
+  margin-right: 0.5rem;
 }
 
 .description {
@@ -25,7 +25,11 @@ a#title {
 
 .side {
   width: 20%;
-}-->
+}
+
+.side10 {
+  width: 10%;
+}
 
 .contents {
   width: 80%;
@@ -37,16 +41,20 @@ a#title {
   margin: auto;
 }
 
+
 body {
   background-color: #ccffcc;
 }
 
-<!--.tweetbottun {
+
+.tweetbottun {
   text-decoration: none;
   background-color: #00aced;
   color: white;
   font-size: 75%;
-}-->
-</style>
+}
 
-
+.privacy {
+  color: gray;
+  font-size: 70%;
+}
