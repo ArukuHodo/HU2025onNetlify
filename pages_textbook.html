@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<?let pageTitle = title;?>
+<?let pageurl = pageUrl;?>
+<?let parenturl = parentUrl;?>
+<?let parenttitle = parentTitle;?>
+<?/* textbookList は generator から直接渡される。旧 content alias 不要 */?>
+<?let currentPage = pageNum;?>  <!-- 現在のページ番号 -->
+<?let totalPages = pageCount;?> <!-- 総ページ数 -->
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <base target="_top">
+  <title>HU2025-参考図書一覧</title>
+  <style>
+
+  aside {
+  text-align: right;
+}
+
+header {
+  margin-left: 20px;
+}
+
+a#title {
+  font-size: 2rem;
+  color: #228b22;
+  letter-spacing: 0.1rem;
+  text-decoration: none;
+  margin-right: 0.5rem;
+}
+
+.description {
+  width: 80%;
+  margin: auto;
+}
+
+.container {
+  display: flex;
+}
+
+.side {
+  width: 20%;
+}
+
+.side10 {
+  width: 10%;
+}
+
+.contents {
+  width: 80%;
+}
+
+.body {
+  background-color: #ffffff;
+  max-width: 800px;
+  margin: auto;
+}
+
+
+body {
+  background-color: #ccffcc;
+}
+
+
+.tweetbottun {
+  text-decoration: none;
+  background-color: #00aced;
+  color: white;
+  font-size: 75%;
+}
+
+.privacy {
+  color: gray;
+  font-size: 70%;
+}
+
+  </style>
+
+
+  <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>  
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:site" content="@ExamHu2025" />
+  <meta name="twitter:creator" content="@ExamHu2025" />
+  <meta property="og:url" content="https://hu2025.netlify.app/<?=pageurl?>" />
+  <meta property="og:title" content="参考図書一覧-HU2025" />
+  <meta property="og:description" content="北大工学部生のための過去問サイト。過去問募集中！" />
+  <meta property="og:image" content="https://hu2025.netlify.app/ogp.jpeg" />
+</head>
+<body>
+  <div class="body">
+    <div>
+      <div style="height:10px;background-color:#228b22">
+      </div>
+      <div style="height:3px;background-color:#ffffff">
+      </div>
+      <div style="height:3px;background-color:#228b22">
+      </div>
+      <div style="height:20px;background-color:#ffffff">
+      </div>
+    </div>
+    <header>
+      <a id="title" href="index.html">HU2025</a><a href="upload.html"><font color="red">試験問題募集中</font></a>
+    </header>
+    <div>
+      <div style="height:20px;background-color:#ffffff">
+      </div>
+      <div style="height:40px;background-color:#31cc31">
+      </div>
+    </div>
+    <p class="description">
+      このサイトは，北海道大学工学部の過去問サイトです．<br>
+      過去問の投稿は<a href="https://hu2025.netlify.app/upload.html">こちら</a>から，ご意見などは hu2025.exam[at]gmail.com に送ってください．([at]は@に変更してください)
+      <script src="https://kampa.me/t/pha.js"></script>
+    </p>
+    <div class="container">
+      <div class="side">
+      </div>
+      <div class="contents">
+        <!-- ここにパンくずリストを挿入-->
+        <? // エスケープ関数（パンくずより前で定義）
+          if (typeof esc !== 'function') {
+            function esc(s){
+              return String(s).replace(/[&<>"']/g, function(c){
+                switch(c){
+                  case '&': return '&amp;';
+                  case '<': return '&lt;';
+                  case '>': return '&gt;';
+                  case '"': return '&quot;';
+                  default: return '&#39;';
+                }
+              });
+            }
+          }
+        ?>
+        <nav aria-label="パンくずリスト">
+            <ol style="list-style: none; display: flex; flex-wrap: wrap; padding: 0; margin: 0;">
+              <li><a href="index.html">トップへ戻る</a></li>
+            </ol>
+        </nav>
+
+        <p>
+          <strong>区分について：</strong>
+          【教】シラバス「テキスト・教科書」記載　
+          【指】シラバス「講義指定図書」記載　
+          【参】シラバスに記載ないが講義内で紹介など
+        </p>
+
+        <ul>
+  <? 
+          // このテンプレートに渡される textbookList は既にページ分割済み
+          if (!Array.isArray(textbookList)) textbookList = [];
+          // 念のため頁内ソート（科目名昇順）
+          let sortedList = [...textbookList].sort((a, b) => (a.subject || '').localeCompare(b.subject || '', 'ja'));
+          for (let i = 0; i < sortedList.length; i++) {
+            let item = sortedList[i] || {};
+            let subj = item.subject || '';
+            let teacher = item.teacher || '';
+            let year = item.year || '';
+            let cat = item.category || '';
+            let book = item.textbook || '';
+            let link = item.link || '';
+            let note = item.note ? '（' + esc(item.note) + '）' : '';
+        ?>
+        <!-- 表示書式変更 -->
+          <li>
+            <?= esc(subj) ?><? if (teacher) { ?>(<?= esc(teacher) ?>)<? } ?> <?= esc(year) ?> [<?= esc(cat) ?>] 
+            <? if (link) { ?>
+              <a href="<?= esc(link) ?>" target="_blank" rel="noopener noreferrer"><?= esc(book) ?></a>
+            <? } else { ?>
+              <?= esc(book) ?>
+            <? } ?>
+            <?= note ?>
+          </li>
+        <? } ?>
+        </ul>
+        <!-- ページネーション（静的ファイル textbooks_*.html 用） -->
+        <nav class="pagination" aria-label="ページネーション" style="text-align:center; margin: 1em 0;">
+          <?
+            // 表示するページ番号ウインドウ（最大5=前後2＋現在）
+            let minPage = Math.max(1, currentPage - 2);
+            let maxPage = Math.min(totalPages, minPage + 4);
+            if (maxPage - minPage < 4) minPage = Math.max(1, maxPage - 4);
+          ?>
+          <? if (currentPage > 1) { ?>
+            <a href="textbooks_1.html" aria-label="最初のページ">&lt;&lt;</a>
+            <a href="textbooks_<?= currentPage - 1 ?>.html" aria-label="前のページ">&lt;</a>
+          <? } ?>
+          <? for (let p = minPage; p <= maxPage; p++) { ?>
+            <? if (p === currentPage) { ?>
+              <strong aria-current="page"><?= p ?></strong>
+            <? } else { ?>
+              <a href="textbooks_<?= p ?>.html" aria-label="<?= p ?>ページ目へ">
+                <?= p ?>
+              </a>
+            <? } ?>
+          <? } ?>
+          <? if (currentPage < totalPages) { ?>
+            <a href="textbooks_<?= currentPage + 1 ?>.html" aria-label="次のページ">&gt;</a>
+            <a href="textbooks_<?= totalPages ?>.html" aria-label="最後のページ">&gt;&gt;</a>
+          <? } ?>
+        </nav>
+        
+        
+        <!--<a href="https://drive.google.com/drive/folders/</?!=rootFolderId?>">このフォルダを開く</a>-->
+      </div>
+
+    </div>
+    <aside>
+      <a href="https://twitter.com/ExamHu2025" target="_blank"><font color="#228b22">HU2025Twitter</font></a>
+      <a href="https://twitter.com/ExamHu2025" target="_blank"><img src="https://hu2025.netlify.app/Xアイコン.jpg" height="18" style="vertical-align: middle;"></a>
+    </aside>
+    <div>
+      <div style="height:3px;background-color:#228b22">
+      </div>
+      <div style="height:3px;background-color:#ffffff">
+      </div>
+      <div style="height:10px;background-color:#228b22">
+      </div>
+    </div>
+  </div>
+  </body>
+</html>

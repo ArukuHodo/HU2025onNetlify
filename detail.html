@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="ja">
-<html>
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -14,10 +13,10 @@
   <meta name="twitter:card" content="summary" />
   <meta name="twitter:site" content="@ExamHu2025" />
   <meta name="twitter:creator" content="@ExamHu2025" />
-  <meta property="og:url" content="https://hu2025.netlify.app//" />
+  <meta property="og:url" content="https://hu2025.netlify.app/" />
   <meta property="og:title" content="北大工学部過去問サイト HU2025" />
   <meta property="og:description" content="北大工学部生のための過去問サイト。過去問募集中！" />
-  <meta property="og:image" content="ogp.jpg"/>
+  <meta property="og:image" content="https://hu2025.netlify.app/ogp.jpeg"/>
 
   <link rel="icon" href="/favicon.ico">
   <!-- Google広告は設置しないため、広告用スクリプトは不要 -->
@@ -48,59 +47,40 @@
     </div>
     <p class="description">
       このサイトは，北海道大学工学部の過去問サイトです．<br>
-      過去問の投稿は<a href="http://hu2025.netlify.com/upload.html">こちら</a>から，ご意見などは hu2025.exam[at]gmail.com に送ってください．([at]は@に変更してください)
+      過去問の投稿は<a href="https://hu2025.netlify.app/upload.html">こちら</a>から，ご意見などは hu2025.exam[at]gmail.com に送ってください．([at]は@に変更してください)
       <br><br>
     </p>
     <div class="container">
       <div class="contents">
-      <div class="description">
+        <div class="description">
             <h3>HU2025について詳しく</h3>
             <ul>
               <li>歴史と課題</li>
             </ul>
-              HU2025は2025年08月18日に北海道大学工学部の過去問サイトとして公開されました。ソースコードが<a href="https://github.com/KU1025organization/KU1025onNetlify">GitHub</a>に公開されています。<br>
-              <a href="https://dkrqr.hatenablog.com/entry/historyKU1025">作成者のブログ</a>に最初期の歴史が公開されています。<a href="https://kuee.netlify.app">KUEE13</a>という電気電子工学科の過去問サイト（現在更新は停止しています）を参考に作成されたようです。<br>
-              基本的な仕組みは、Googleドライブのファイル階層構造に対応したHTMLファイルをGoogle Apps Script（GASと呼ばれる）によって作成・GitHub上にアップロードし、Netlifyというホスティングサービスを使用してWebサイトとして公開するというものです。<br>
-              物理工学科には2007年まで更新されていた過去問サイトもあります。世代や学科を超えて過去問サイトの文化が継承されていることは感慨深いものがあります。<br><br>
-              このような過去問サイトの課題は、その継承です。学生が大学（・大学院）に在籍する期間は4〜10年程度であり、その期間を越えると上手く継承されなかった過去問サイトは放置されることになります。
-              実際に過去、京大工学部の試験問題を収集・公開していた多くの過去問サイトがその更新を停止していることからも、そのことが伺えます。<br>
-              過去問サイト（多くの個人ブログ等にも共通するかもしれません）の継承が難しい理由は、いくつか考えられます。<br><br>
-              1、Webサイトの更新・保守といった作業自体は最低1人から出来、自分達が試験問題を必要としなくなった後は更新するインセンティブが無いため、継承するという発想に乏しい。<br>
-              2、Webサイトの更新・保守には、複数の言語やサービスの仕様等についての最低限の知識が必要であり、後継者にとって敷居が高い。<br>
-              3、少人数の運営では、後継者を見つけるための新歓等に相当の労力が必要。<br><br>
-              KU1025の運営は2022年7月現在、作成者から2人目の代表の体制に引き継がれており、継承問題についても頭を使ってきました。
-              現在、1つの解と考えているのは、<a href="https://script.google.com/macros/s/AKfycbyUBzmYISfXuAIXpSFFhY59juUDWtH3s5XGp-4Epykox9ASvg8/exec">工学部新入生歓迎実行委員会</a>（以下、工学部新歓実と呼ぶ）との連携です。<br>
-              工学部新歓実は、工学部公認の学生団体であり、
-              コロナ禍も収束の兆しが見え始めた2022年は、4月に新入生を対象としたクラス交流会を主催するなど、工学部新入生に対して専有的に関わる組織となっています。<br>
-              基本的な運営は前年度のクラス交流会で決められたクラス会委員によって行われますが、各学科のオープンチャット運営者や、縦コン主催団体などが運営に参加しており、KU1025も運営に参画しました。<br>
-              このような世代を超えた工学部学生の交流の場を軸として、これからもKU1025が引き続き運営されていくように努力していきたいと考えています。
-	      
+              HU2025は2025年08月18日に北海道大学工学部の過去問サイトとして公開されました。立ち上げにあたっては既存の京都大学工学部の過去問サイト<a href="https://ku1025.netlify.app/" target="_blank">KU1025</a>をデザインから実装コードに至るまで全面的に参考にしています。KU1025のソースコードが<a href="https://github.com/KU1025organization/KU1025onNetlify" target="_blank">GitHub</a>に公開されています。<br>
+              大学講義内の試験問題を収集し、第三の学生が接触可能な場所に設置するという営みは以前よりも、例えば東京大学の試験対策委員会（シケタイ）や今回参考にした京都大学のKU1025のように長らく存在していた形態ではありますが、こと北海道大学においては2025年8月現在そういった場が（私の確認した限り）見当たらなかったため、このようなサイトの設置を思い立ちました。そこから先はKU1025のGitHubコードを横に並べつつGPT-4.1へ質問を数百度繰り返し、サイト公開に至るといった次第です。<br>
+              このような経緯のため、サイトの仕組みについて知りたいといった方は前述のKU1025ソースコードかまたは<a href="https://ku1025.netlify.app/detail" target="_blank">KU1025サイト</a>、KU1025の製作遍歴が記された<a href="https://dkrqr.hatenablog.com/entry/historyKU1025" target="_blank">作成者のブログ</a>などの方を参照していただけたらと思います。<br>
+              一応HU2025のソースコードについても<a href="https://github.com/ArukuHodo/HU2025onNetlify" target="_blank">GitHub</a>上に公開はされています。
 
         <script src="https://kampa.me/t/parts/pha.js"></script>
         <!--これ消すかもなあ-->
 
 
-      </div>
-      <!--description-->
+        </div><!-- .description -->
+      </div><!-- .contents -->
+    </div><!-- .container -->
 
-    <div>
     <aside>
       <a href="https://twitter.com/ExamHu2025" target="_blank"><font color="#228b22">HU2025Twitter</font></a>
-      <a href="https://twitter.com/ExamHu2025" target="_blank"><img src="Xアイコン.jpg" height="18" style="vertical-align: middle;"></a>
+      <a href="https://twitter.com/ExamHu2025" target="_blank"><img src="Xアイコン.jpg" height="18" style="vertical-align: middle;" alt="HU2025 Xアカウント"></a>
     </aside>
 
     <div>
-      <div style="height:3px;background-color:#228b22">
-      </div>
-      <div style="height:3px;background-color:#ffffff">
-      </div>
-      <div style="height:10px;background-color:#228b22">
-      </div>
-     </div>
+      <div style="height:3px;background-color:#228b22"></div>
+      <div style="height:3px;background-color:#ffffff"></div>
+      <div style="height:10px;background-color:#228b22"></div>
     </div>
-    </div>
-
-  </div>
+  </div><!-- .body -->
 
 </body>
 </html>
