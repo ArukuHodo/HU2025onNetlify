@@ -248,6 +248,33 @@ function updatePagesOthers(){
 }
 
 /**
+ * 統合更新関数（提案A）
+ * 1 本の時間トリガーで全ての生成処理を順番に行いたい場合に使用します。
+ * 既存の各 updateXXX 関数内で個別コミットされるため、コミットは複数並びます。
+ * コミットを 1 回にまとめたい高度版は、各関数をリファクタし commit 抑制フラグを導入する必要あり（未実装）。
+ */
+function updateAllSitePages(){
+  const started = new Date();
+  Logger.log('[updateAllSitePages] start ' + started.toISOString());
+  const tasks = [
+    { name: 'textbook', fn: updateTextbookPages },
+    { name: 'general', fn: updatePagesGeneral },
+    { name: 'engineering', fn: updatePagesEngineering },
+    { name: 'literature', fn: updatePagesLiterature },
+    { name: 'others', fn: updatePagesOthers },
+  ];
+  tasks.forEach(t => {
+    try {
+      Logger.log('[updateAllSitePages] run ' + t.name);
+      t.fn();
+    } catch (e) {
+      Logger.log('[updateAllSitePages][ERROR] ' + t.name + ': ' + e + '\n' + (e && e.stack ? e.stack : ''));
+    }
+  });
+  Logger.log('[updateAllSitePages] end');
+}
+
+/**
  * folder以下のすべてのフォルダについて，再帰的にupdatePage()を実行
  * 
  * @param {Object} folder [DriveApp folder class]
@@ -279,26 +306,27 @@ function updatePage(folder, parentPage){
   
   const myData = getFilesIdIn(folder);
   const now = new Date().getTime();
+  const thresholdMs = pageUpdateThresholdHours * 60 * 60 * 1000;
+  // 既に pTree に同名パスが存在するか（まだ一度も生成していない場合は必ず生成するため）
+  const pageExists = pTree['tree'].some(item => item.path === homePath + page);
+  const isRecent = (now - myData['updated']) < thresholdMs; // "最近更新された" 判定
+  // 旧仕様: isRecent のときだけ生成 → 古いが未生成のフォルダや空フォルダが 404 になり得た
+  // 新仕様: (未生成) または (最近更新) の場合は生成。既存ページで古く変更なしならスキップ。
   
-  if(now - myData["updated"] < pageUpdateThresholdHours * 60 * 60 * 1000){  //しきい値時間以内ならページ更新
+  if(!pageExists || isRecent){
     const contents = makeContents(folder, myData);
     
     let htmlTemplate = HtmlService.createTemplateFromFile('pages');
-    // パンくずリスト用breadcrumb配列を生成
+    // ================= パンくずリスト簡略化 =================
+    // 以前: Google Drive 上の物理的な親フォルダをすべて辿っていたため
+    //   「トップ > マイドライブ > HU2025 > ...」のようにサイト外の階層が表示されてしまった。
+    // 今回: サイト論理階層のみ表示したいので parentPage (index.html または 1つ上のカテゴリページ) のみを利用。
+    //   index.html の場合は「トップ」がテンプレート内で既に表示されるため breadcrumb には現在フォルダのみ追加。
     let breadcrumb = [];
-    let currentFolder = folder;
-    while (true) {
-      let parent = currentFolder.getParents();
-      if (!parent.hasNext()) break;
-      let parentFolder = parent.next();
-      let parentName = parentFolder.getName().replace(/[\(\)]/g,"");
-      let parentPage = parentName + '.html';
-      breadcrumb.unshift({ title: parentName, url: parentPage });
-      currentFolder = parentFolder;
-      if (parentPage === "index.html") break;
+    if (parentPage && parentPage !== 'index.html') {
+      breadcrumb.push({ title: parentPage.replace(/\.html$/, ''), url: parentPage });
     }
-     // 現在のフォルダ名を最後に追加（リンクなし、テンプレ側でspan表示）
-    breadcrumb.push({ title: folderName, url: page });
+    breadcrumb.push({ title: folderName, url: page }); // 最後はテンプレ側で span 表示される
     htmlTemplate.breadcrumb = breadcrumb;
 
     htmlTemplate.pageUrl     = page;
@@ -333,7 +361,10 @@ function makeContents(rootFolder, myData){
   let contents = "";
   
   const rootFolderName = rootFolder.getName().replace(/[\(\)]/g,"");
-  const pageUrl = siteUrl + rootFolderName + '.html';  //現在表示しているページのurl
+  // NOTE: プレビュー / ブランチデプロイでも動くよう内部リンクは相対パス推奨。
+  // Tweet 用だけ本番 siteUrl を使いたいので pageUrl は siteUrl(設定があれば) + ファイル名。
+  const pageFileName = rootFolderName + '.html';
+  const pageUrl = (siteUrl ? siteUrl.replace(/\/$/, '') + '/' : '') + pageFileName;  //現在表示しているページのurl（シェア用）
   
   //tweetbottunUrl1,2の間にファイル名を入れてtweetボタンのテキストに
   const tweetbottunUrl1 = "https://twitter.com/intent/tweet?hashtags=HU2025,"
@@ -349,7 +380,13 @@ function makeContents(rootFolder, myData){
     folderId   = folderId.substr(1,folderId.length-2);     //.substr(1,folderId.length-2)で””を取り除く
     folderName = folderName.substr(1,folderName.length-2);
     //<li><a href="https://script.google.com/macros/s/[scriptId]/dev?id=[folderId]">[folderName]</a></li>
-    contents += "<li><a href=\"" + siteUrl + folderName.replace(/\(/g,"").replace(/\)/g,"") + ".html\">" + folderName + "</a></li>";
+  // 内部リンクは相対パス: <a href="フォルダ名.html"> にすることで preview ドメインでも 404 になりにくい
+  const folderNameNormalized = folderName.replace(/\(/g,"").replace(/\)/g,"");
+  contents += "<li><a href=\"" + encodeURI(folderNameNormalized) + ".html\">" + folderName + "</a></li>";
+  }
+  // フォルダもファイルも無い場合は案内メッセージを 1 行追加
+  if(myData["folder"].length === 0 && myData["file"].length === 0){
+    contents += "<li>（募集中！）</li>";
   }
   for(let i=0; myData["file"][i] != undefined; i++){
     
